@@ -1,8 +1,8 @@
 # The World in One Day — Sunday 22 November 2026
 
-[![Competition](https://img.shields.io/badge/make.fun-news--image--20261122-blue)](https://make.fun/bounty/news-image-20261122)
-[![Score](https://img.shields.io/badge/score-pending-lightgrey)](https://make.fun/bounty/news-image-20261122)
-[![Prize](https://img.shields.io/badge/prize-%24100%20top%2050-gold)](https://make.fun/bounty/news-image-20261122)
+[![make.fun · news-image-20261122](https://make.fun/badge/news-image-20261122.svg)](https://make.fun/bounty/news-image-20261122?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261122)
+[![rank](https://make.fun/badge/news-image-20261122/mekzibnn/news-world-today-22/rank.svg)](https://make.fun/bounty/news-image-20261122/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261122)
+[![reward](https://make.fun/badge/news-image-20261122/mekzibnn/news-world-today-22/reward.svg)](https://make.fun/bounty/news-image-20261122?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261122)
 
 A make.fun **news-image-20261122** entry: one program that draws a single
 1024×1024 front page summing up Sunday 22 November 2026's world news.
@@ -13,7 +13,7 @@ A make.fun **news-image-20261122** entry: one program that draws a single
 
 - **35 dated stories from 7 regions** — 13 pictorial leads (3 big + 10
   medium) + 22 briefs, every one first reported on Sunday 22 November 2026.
-- **Top stories:** COP31's dawn deal without fossil fuels · Iran claims
+- **Top stories:** COP31 talks collapse, no deal adopted · Iran claims
   Bahrain strikes (Bahrain and the US deny) · Russia's 186-drone barrage,
   161 downed.
 - **A DATE CHECK box** naming what is *not* Sunday's news (the 400-drone
