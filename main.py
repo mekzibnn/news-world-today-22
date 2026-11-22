@@ -111,10 +111,10 @@ TIMELINE = [
 # Leads: num, kicker, region, headline, body, source, tag, lat, lon, icon
 LEADS = [
     (1, "ANTALYA \u00b7 CLIMATE", "Europe",
-     "COP31 final text lands at dawn \u2014 fossil fuels unmentioned",
-     "The 10-page Antalya Accords go to the vote; objections close 03:00 GMT, "
-     "the session slips to 11:00 local. Panama vows to oppose; first COP text "
-     "to admit 1.5\u00b0C will be missed.",
+     "COP31 talks collapse \u2014 no deal adopted",
+     "The 10-page text lands at dawn, no fossil fuels named; "
+     "closing plenary rejects it \u2014 Kurum: 'no consensus, these decisions have not been adopted.' "
+     "EU and others opposed; first COP text to admit 1.5\u00b0C will be missed.",
      "Al Jazeera \u00b7 BBC \u00b7 Reuters", "REPORTED", 36.9, 30.7, "sunrise"),
     (2, "BAHRAIN \u00b7 CLAIM", "Middle East",
      "Iran claims Bahrain strikes; Bahrain and the US deny",
@@ -729,7 +729,7 @@ def draw_masthead(draw):
 def draw_date_block(draw):
     title = "SUNDAY 22 NOVEMBER 2026"
     draw_centered(draw, W / 2, 54, title, F["date"], NAVY)
-    sub = ("COP31\u2019s dawn deal \u00b7 Iran claims Bahrain strikes \u00b7 "
+    sub = ("COP31 talks collapse \u00b7 Iran claims Bahrain strikes \u00b7 "
            "Russia\u2019s 186-drone barrage")
     draw_centered(draw, W / 2, 104, sub, F["sub"], RED_DARK)
 
