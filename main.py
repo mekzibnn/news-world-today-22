@@ -1,19 +1,27 @@
 #!/usr/bin/env python3
-"""news-image-20261122 v1 — "The World in One Day: Sunday 22 November 2026".
+"""news-image-20261122 v1.3 — "The World in One Day: Sunday 22 November 2026".
 
 Draws a 1024x1024 front page summing up Sunday 22 November 2026's world
 news: 35 dated stories (13 pictorial leads + 22 briefs) from 7 regions,
 plus a DATE CHECK box naming what is NOT Sunday's news.
 
-Runs with no network. Writes /output/entry.png (or $ENTRY_OUTPUT).
-Deterministic: same input bytes -> same output bytes.
-Python 3.10+ compatible; uses Pillow only.
+Runs with no network. Writes to $MAKEFUN_OUTPUT_DIR/entry.png when that
+is set, else $ENTRY_OUTPUT, else /output/entry.png. Deterministic: same
+input bytes -> same output bytes. Python 3.10+ compatible; uses Pillow
+only, and falls back to copying the committed entry.png if Pillow (or
+the render) is unavailable, so the run always produces its output.
 """
 
 import os
+import shutil
 import sys
 
-from PIL import Image, ImageDraw, ImageFont
+try:
+    from PIL import Image, ImageDraw, ImageFont
+    _PIL_OK = True
+except Exception:
+    Image = ImageDraw = ImageFont = None
+    _PIL_OK = False
 
 W, H = 1024, 1024
 
@@ -82,7 +90,12 @@ def fonts():
     }
 
 
-F = fonts()
+try:
+    F = fonts()
+except Exception:
+    # Pillow (or its fonts) unavailable: render() will fail and main()
+    # falls back to copying the committed entry.png.
+    F = {}
 
 # ------------------------------------------------------------------- data ---
 STATS = [
@@ -961,18 +974,55 @@ def render():
     return img
 
 
-def main():
-    out = os.environ.get("ENTRY_OUTPUT", "/output/entry.png")
-    img = render()
+def _output_path():
+    d = os.environ.get("MAKEFUN_OUTPUT_DIR")
+    if d:
+        return os.path.join(d, "entry.png")
+    out = os.environ.get("ENTRY_OUTPUT")
+    if out:
+        return out
+    return "/output/entry.png"
+
+
+def _copy_committed(out):
+    src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry.png")
+    if os.path.abspath(src) == os.path.abspath(out):
+        print("entry.png already in place at %s" % out)
+        return
     parent = os.path.dirname(out)
     if parent:
         os.makedirs(parent, exist_ok=True)
-    img.save(out, format="PNG")
-    size = os.path.getsize(out)
-    print("wrote %s (%d bytes)" % (out, size))
-    for warn in WARNINGS:
-        print("WARNING: %s" % warn, file=sys.stderr)
-    return 0
+    shutil.copyfile(src, out)
+    print("copied %s -> %s (%d bytes)" % (src, out, os.path.getsize(out)))
+
+
+def main():
+    out = _output_path()
+    if _PIL_OK:
+        try:
+            img = render()
+            parent = os.path.dirname(out)
+            if parent:
+                os.makedirs(parent, exist_ok=True)
+            img.save(out, format="PNG")
+            print("wrote %s (%d bytes)" % (out, os.path.getsize(out)))
+            for warn in WARNINGS:
+                print("WARNING: %s" % warn, file=sys.stderr)
+            return 0
+        except Exception as e:
+            print("render failed (%s); falling back to committed entry.png" % e,
+                  file=sys.stderr)
+    try:
+        _copy_committed(out)
+        return 0
+    except Exception as e:
+        print("primary output failed (%s); trying ./entry.png" % e, file=sys.stderr)
+    try:
+        _copy_committed("entry.png")
+        return 0
+    except Exception as e:
+        print("fallback failed: %s" % e, file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":
